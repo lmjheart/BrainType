@@ -11,17 +11,12 @@ import {
   ChevronRight, 
   ChevronLeft, 
   Download, 
-  Share2, 
   RefreshCw, 
-  Zap, 
-  Target, 
   BrainCircuit, 
-  Heart, 
   BarChart3, 
   Edit3, 
   Sparkles,
-  Info,
-  ArrowDown,
+  Target,
   Users,
   EyeOff
 } from 'lucide-react';
@@ -101,32 +96,7 @@ const App: React.FC = () => {
       link.href = canvas.toDataURL('image/png');
       link.click();
     } catch (err) {
-      alert('이미지 저장 중 오류가 발생했습니다.');
-    }
-  };
-
-  const shareResult = async () => {
-    const url = window.location.origin; // Vercel 배포 주소
-    const shareData = {
-      title: '마지막 몰입: 뇌 유형 진단',
-      text: `${userName}님의 뇌 유형은 '${diagnosticData?.primary.name}'! 결과를 확인해보세요.`,
-      url: url,
-    };
-    
-    try {
-      if (navigator.share && navigator.canShare && navigator.canShare(shareData)) {
-        await navigator.share(shareData);
-      } else {
-        throw new Error('Web Share not supported');
-      }
-    } catch (err) {
-      // 카톡 등 인앱 브라우저 대응: 클립보드 복사로 대체
-      try {
-        await navigator.clipboard.writeText(url);
-        alert('링크가 복사되었습니다! 카톡이나 SNS에 붙여넣어 공유해주세요.');
-      } catch (copyErr) {
-        alert(`공유 링크: ${url}`);
-      }
+      alert('이미지 저장 중 오류가 발생했습니다. 브라우저 설정을 확인해주세요.');
     }
   };
 
@@ -362,9 +332,9 @@ const App: React.FC = () => {
                 {showCard && (
                   <motion.div initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} className="flex flex-col items-center mb-16">
                     <DeclarationCard userName={userName} typeInfo={diagnosticData.primary} customCommitment={customCommitment} cardRef={cardRef} />
-                    <div className="w-full mt-12 flex flex-col gap-4 px-4">
-                      <Button variant="primary" fullWidth size="lg" onClick={saveAsImage} className="h-16 text-lg"><Download size={22} className="mr-2" /> 이미지 저장</Button>
-                      <Button variant="outline" fullWidth size="lg" onClick={shareResult} className="h-16 text-lg"><Share2 size={22} className="mr-2" /> 공유하기</Button>
+                    <div className="w-full mt-12 px-4">
+                      <Button variant="primary" fullWidth size="lg" onClick={saveAsImage} className="h-20 text-xl shadow-2xl"><Download size={24} className="mr-2" /> 선언서 이미지 저장하기</Button>
+                      <p className="text-center text-gray-400 text-xs mt-4 font-bold">이미지를 저장하여 당신의 다짐을 간직하세요.</p>
                     </div>
                   </motion.div>
                 )}
@@ -372,7 +342,7 @@ const App: React.FC = () => {
 
               <div className="text-center pt-8 border-t border-gray-100">
                 <button onClick={resetTest} className="text-gray-300 font-black flex items-center justify-center mx-auto text-sm hover:text-indigo-600 py-4">
-                  <RefreshCw size={16} className="mr-2" /> 다시 하기
+                  <RefreshCw size={16} className="mr-2" /> 테스트 다시 하기
                 </button>
               </div>
             </div>
